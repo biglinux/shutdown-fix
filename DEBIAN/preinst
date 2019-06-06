@@ -1,0 +1,16 @@
+#!/bin/sh
+set -e
+package_name=shutdown-fix
+mkdir -p "/usr/share/dpkgdivert/shutdown-fix"
+case "$1" in
+  install)
+    dpkg-divert --package "$package_name" --divert "/usr/share/dpkgdivert/shutdown-fix/usrbinend-zram-swapping" --rename "/usr/bin/end-zram-swapping"
+    ;;
+  upgrade)
+if [ "$(dpkg-divert --list "/usr/bin/end-zram-swapping")" = "" ]
+then
+    dpkg-divert --package "$package_name" --divert "/usr/share/dpkgdivert/shutdown-fix/usrbinend-zram-swapping" --rename "/usr/bin/end-zram-swapping"
+fi
+;;
+esac
+exit 0

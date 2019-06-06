@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+package_name=shutdown-fix
+case "$1" in
+  remove)
+    dpkg-divert --package "$package_name" --rename --remove "/usr/bin/end-zram-swapping"
+    ;;
+  purge)
+    dpkg-divert --package "$package_name" --rename --remove "/usr/bin/end-zram-swapping"
+;;
+esac
+exit 0
